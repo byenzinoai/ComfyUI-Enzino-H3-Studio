@@ -1,0 +1,16 @@
+[project]
+name = "comfyui-enzino-h3-studio"
+description = "MiniMax H3 in one node: text, image, first + last, end frame or references to video with native stereo sound. Auto keyframe header, mid keyframe, audio drive, Turbo, one-click model downloads, player, history and shot chaining. by Enzino."
+version = "3.0.0"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Homepage = "https://enzinoai.com"
+Repository = "https://github.com/byenzinoai/ComfyUI-Enzino-H3-Studio"
+
+[tool.comfy]
+PublisherId = "byenzinoai"
+DisplayName = "Enzino H3 Studio"
+Icon = ""
