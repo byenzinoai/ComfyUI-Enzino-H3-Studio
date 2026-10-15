@@ -11,6 +11,6 @@ Homepage = "https://enzinoai.com"
 Repository = "https://github.com/byenzinoai/ComfyUI-Enzino-H3-Studio"
 
 [tool.comfy]
-PublisherId = "byenzinoai"
+PublisherId = "enzinoai"
 DisplayName = "Enzino H3 Studio"
 Icon = ""
