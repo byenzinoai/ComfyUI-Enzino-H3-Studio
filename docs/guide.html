@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enzino H3 Studio · Guide</title>
+<meta name="description" content="Complete guide to Enzino H3 Studio 3.0, MiniMax H3 video with sound in ComfyUI. Guide complet.">
+<style>
+:root{--bg:#121418;--card:#1a1d23;--raise:#21252d;--line:#2a2e36;--ink:#ecebe7;--mute:#a5abb6;--dim:#7d8492;--acc:#f2a65a;--acc2:#e86fa6;--ok:#5fc48a;--warn:#e8c25f;--code:#0d0e11}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f4ef;--card:#fff;--raise:#f0ede6;--line:#e2ddd2;--ink:#1d1f24;--mute:#4c525d;--dim:#7a808b;--acc:#c86f1d;--acc2:#b8336f;--ok:#2b8a55;--warn:#9a7410;--code:#f3f0e9}}
+:root[data-theme="light"]{--bg:#f6f4ef;--card:#fff;--raise:#f0ede6;--line:#e2ddd2;--ink:#1d1f24;--mute:#4c525d;--dim:#7a808b;--acc:#c86f1d;--acc2:#b8336f;--ok:#2b8a55;--warn:#9a7410;--code:#f3f0e9}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+html[lang="en"] .fr, html[lang="fr"] .en{display:none!important}
+a{color:var(--acc)}
+code,kbd,pre{font-family:ui-monospace,"JetBrains Mono",Consolas,monospace;font-size:.86em}
+code{background:var(--code);border:1px solid var(--line);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;line-height:1.55;white-space:pre-wrap}
+pre code{background:none;border:0;padding:0}
+.wrap{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1240px;margin:0 auto}
+nav{position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 28px 22px;border-right:1px solid var(--line)}
+nav .brand{font-weight:800;font-size:17px;letter-spacing:-.01em;margin-bottom:2px}
+nav .brand b{color:var(--acc)}
+nav .ver{color:var(--dim);font-size:12px;margin-bottom:16px}
+nav .tools{display:flex;gap:6px;margin-bottom:18px}
+nav .tools button{all:unset;cursor:pointer;padding:5px 10px;border-radius:8px;border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--mute)}
+nav .tools button.on{background:var(--acc);border-color:var(--acc);color:#17191e}
+nav ol{list-style:none;margin:0;padding:0;counter-reset:s}
+nav li a{display:block;padding:4px 10px;border-radius:7px;color:var(--mute);text-decoration:none;font-size:13.5px}
+nav li a:hover{background:var(--raise);color:var(--ink)}
+nav li a.cur{background:var(--raise);color:var(--acc);font-weight:700}
+nav .grp{margin:14px 0 4px 10px;font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+main{padding:40px 48px 120px;min-width:0}
+header.hero{padding-bottom:26px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.hero h1{font-size:40px;line-height:1.1;margin:0 0 10px;letter-spacing:-.025em}
+.hero h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);font-size:17px;margin:0 0 14px;max-width:720px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--raise);border:1px solid var(--line);color:var(--mute)}
+section{padding-top:34px}
+h2{font-size:26px;letter-spacing:-.015em;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+h2 .n{font-size:13px;font-weight:800;color:#17191e;background:var(--acc);border-radius:7px;padding:2px 8px}
+h3{font-size:18px;margin:26px 0 6px}
+h4{font-size:15px;margin:18px 0 4px;color:var(--acc)}
+p{margin:8px 0}
+.lead{color:var(--mute);margin-top:0}
+ul,ol.steps{padding-left:22px}
+li{margin:4px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--dim);font-weight:800}
+td:first-child{font-weight:650;white-space:nowrap}
+.tbl-wrap td:first-child{white-space:normal}
+.note,.tip,.warn{border-radius:10px;padding:11px 14px;margin:14px 0;border:1px solid var(--line);background:var(--card)}
+.tip{border-left:4px solid var(--ok)}.warn{border-left:4px solid var(--warn)}.note{border-left:4px solid var(--acc)}
+.tip b:first-child,.warn b:first-child,.note b:first-child{margin-right:4px}
+.full{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:6px;background:var(--acc);color:#17191e;vertical-align:2px;margin-left:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;border-bottom:1px solid var(--line);background:#0d0e11}
+.card div{padding:12px 14px}
+.card b{display:block;font-size:15px;margin-bottom:3px}
+.card span{color:var(--mute);font-size:13.5px}
+figure{margin:16px 0}
+figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+figcaption{color:var(--dim);font-size:13px;margin-top:6px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-weight:700;font-size:13px}
+.flow i{color:var(--dim);font-style:normal}
+kbd{background:var(--raise);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}
+.check{list-style:none;padding-left:0}.check li:before{content:"✓";color:var(--ok);font-weight:800;margin-right:8px}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
+.hscroll{overflow-x:auto}.hscroll table{min-width:520px}
+.menu{display:none}
+@media (max-width:900px){
+ .wrap{display:block}
+ nav{position:fixed;inset:0 25% 0 0;z-index:5;background:var(--bg);transform:translateX(-105%);transition:transform .2s;height:100%}
+ nav.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.4)}
+ .menu{display:block;position:fixed;right:14px;bottom:14px;z-index:6;all:unset;position:fixed;right:14px;bottom:14px;z-index:6;background:var(--acc);color:#17191e;font-weight:800;padding:10px 16px;border-radius:999px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+ main{padding:26px 16px 100px}
+ table{font-size:13px}th,td{padding:7px 6px}
+ .hero h1{font-size:30px}
+ .split{grid-template-columns:1fr}
+ td:first-child{white-space:normal}
+}
+</style>
+</head>
+<body>
+<button class="menu" id="menu" aria-label="Menu">☰</button>
+<div class="wrap">
+<nav id="nav">
+  <div class="brand">✦ Enzino <b>H3 Studio</b></div>
+  <div class="ver">v3.0.0 · <span class="en">Guide</span><span class="fr">Guide</span></div>
+  <div class="tools">
+    <button data-lang="en">EN</button><button data-lang="fr">FR</button>
+    <button data-theme-btn title="Light / dark" aria-label="Light / dark"><svg width="14" height="14" viewBox="0 0 16 16" style="display:block;margin:1px 0"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <ol>
+    <div class="grp"><span class="en">Start</span><span class="fr">Démarrer</span></div>
+    <li><a href="#overview"><span class="en">Overview</span><span class="fr">Présentation</span></a></li>
+    <li><a href="#install"><span class="en">Install &amp; models</span><span class="fr">Installation &amp; modèles</span></a></li>
+    <li><a href="#quick"><span class="en">Your first video</span><span class="fr">Ta première vidéo</span></a></li>
+    <div class="grp"><span class="en">Make a video</span><span class="fr">Faire une vidéo</span></div>
+    <li><a href="#modes"><span class="en">Modes</span><span class="fr">Modes</span></a></li>
+    <li><a href="#prompt"><span class="en">Writing the prompt</span><span class="fr">Écrire le prompt</span></a></li>
+    <li><a href="#format"><span class="en">Format &amp; duration</span><span class="fr">Format &amp; durée</span></a></li>
+    <li><a href="#render"><span class="en">Render settings</span><span class="fr">Réglages de rendu</span></a></li>
+    <li><a href="#speed"><span class="en">Speed &amp; memory</span><span class="fr">Vitesse &amp; mémoire</span></a></li>
+    <li><a href="#loras">LoRAs</a></li>
+    <div class="grp"><span class="en">The three tools</span><span class="fr">Les trois outils</span></div>
+    <li><a href="#simple">Simple</a></li>
+    <li><a href="#wf">WF ①→⑥</a></li>
+    <li><a href="#studio">Studio</a></li>
+    <div class="grp"><span class="en">Full edition</span><span class="fr">Édition Full</span></div>
+    <li><a href="#krea">Krea 2</a></li>
+    <li><a href="#story"><span class="en">Story mode</span><span class="fr">Mode histoire</span></a></li>
+    <li><a href="#control"><span class="en">Motion &amp; retouch</span><span class="fr">Mouvement &amp; retouche</span></a></li>
+    <li><a href="#finish"><span class="en">Finish &amp; share</span><span class="fr">Finition &amp; partage</span></a></li>
+    <li><a href="#presets"><span class="en">Presets, Draft / Final</span><span class="fr">Presets, Brouillon / Final</span></a></li>
+    <div class="grp"><span class="en">Reference</span><span class="fr">Référence</span></div>
+    <li><a href="#save"><span class="en">Saving &amp; history</span><span class="fr">Enregistrement &amp; historique</span></a></li>
+    <li><a href="#trouble"><span class="en">Troubleshooting</span><span class="fr">Dépannage</span></a></li>
+    <li><a href="#editions">Free / Full</a></li>
+    <li><a href="#licence"><span class="en">Licences &amp; credits</span><span class="fr">Licences &amp; crédits</span></a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <h1>MiniMax H3 <span>in ComfyUI</span></h1>
+  <p class="en">Text, a picture, two keyframes, an end frame or a set of references in. A video with native stereo sound out. Everything runs on ComfyUI's own MiniMax H3 implementation: no extra model code, no extra Python dependency.</p>
+  <p class="fr">Du texte, une image, deux images-clés, une image de fin ou des références en entrée. Une vidéo avec son stéréo natif en sortie. Tout tourne sur l'implémentation MiniMax H3 native de ComfyUI : aucun code de modèle en plus, aucune dépendance Python en plus.</p>
+  <div class="pills"><span class="pill">v3.0.0</span><span class="pill">by Enzino · <a href="https://enzinoai.com">enzinoai.com</a></span><span class="pill"><a href="https://ko-fi.com/enzinoxl/">Ko-Fi</a></span><span class="pill">EN / FR</span></div>
+</header>
+
+<!-- =============================================================== OVERVIEW -->
+<section id="overview">
+<h2><span class="n">1</span><span class="en">Overview</span><span class="fr">Présentation</span></h2>
+<p class="en lead">The pack gives you three ways to drive the same engine. Quality, speed and memory handling are identical; pick the one you like to work with.</p>
+<p class="fr lead">Le pack te donne trois façons de piloter le même moteur. Qualité, vitesse et gestion mémoire sont identiques : choisis celle avec laquelle tu aimes travailler.</p>
+<div class="cards">
+  <a class="card" href="#simple" style="text-decoration:none;color:inherit"><img src="simple.jpg" alt="Enzino H3 Simple"><div><b>✦ Enzino H3 Simple</b>
+    <span class="en">One card: picture, prompt, duration, format, quality, models and LoRAs. Everything else on its best automatic setting.</span>
+    <span class="fr">Une seule carte : image, prompt, durée, format, qualité, modèles et LoRAs. Tout le reste sur son meilleur réglage automatique.</span></div></a>
+  <a class="card" href="#wf" style="text-decoration:none;color:inherit"><img src="wf.jpg" alt="Enzino H3 WF"><div><b>✦ Enzino H3 WF</b>
+    <span class="en">Six readable steps joined by one wire, with a ⚡ Draft / ✦ Final switch. Easy to read, easy to extend with your own nodes.</span>
+    <span class="fr">Six étapes lisibles reliées par un seul fil, avec un bouton ⚡ Brouillon / ✦ Final. Facile à lire, facile à compléter avec tes propres nodes.</span></div></a>
+  <a class="card" href="#studio" style="text-decoration:none;color:inherit"><img src="studio.jpg" alt="Enzino H3 Studio"><div><b>✦ Enzino H3 Studio</b>
+    <span class="en">Every mode and every setting in one landscape node, with tabs and the result always in view.</span>
+    <span class="fr">Tous les modes et tous les réglages dans un seul node en paysage, avec des onglets et le résultat toujours visible.</span></div></a>
+</div>
+<table class="tbl-wrap"><thead><tr><th></th><th>Simple</th><th>WF</th><th>Studio</th></tr></thead><tbody>
+<tr><td><span class="en">Modes</span><span class="fr">Modes</span></td><td><span class="en">Text, Image</span><span class="fr">Texte, Image</span></td><td><span class="en">Text, Image, First + Last, References</span><span class="fr">Texte, Image, Début + Fin, Références</span></td><td><span class="en">All five, plus mid keyframe and your own sound</span><span class="fr">Les cinq, plus image du milieu et ton propre son</span></td></tr>
+<tr><td><span class="en">Prompt helpers</span><span class="fr">Aides au prompt</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><span class="en">Krea 2 pass, upscale, fps</span><span class="fr">Passe Krea 2, upscale, i/s</span></td><td>—</td><td>⑤ Enhance</td><td><span class="en">Finish tab</span><span class="fr">Onglet Finition</span></td></tr>
+<tr><td><span class="en">Story, motion control, retouch, variations</span><span class="fr">Histoire, contrôle du mouvement, retouche, variations</span></td><td>—</td><td>—</td><td>✓ <span class="full">FULL</span></td></tr>
+<tr><td><span class="en">Edition</span><span class="fr">Édition</span></td><td><span class="full">FULL</span></td><td>Free · Full</td><td><span class="full">FULL</span></td></tr>
+<tr><td><span class="en">Best for</span><span class="fr">Idéal pour</span></td><td><span class="en">Getting a great clip fast</span><span class="fr">Un beau clip, vite</span></td><td><span class="en">A clear pipeline you can branch</span><span class="fr">Une chaîne claire qu'on peut brancher</span></td><td><span class="en">Full control, long stories</span><span class="fr">Contrôle total, longues histoires</span></td></tr>
+</tbody></table>
+</section>
+
+<!-- =============================================================== INSTALL -->
+<section id="install">
+<h2><span class="n">2</span><span class="en">Install &amp; models</span><span class="fr">Installation &amp; modèles</span></h2>
+<ol class="steps">
+  <li class="en">Copy the <code>ComfyUI-Enzino-H3-Studio</code> folder into <code>ComfyUI/custom_nodes/</code>. (Replace the Free folder if you upgrade to Full: never keep both.)</li>
+  <li class="fr">Copie le dossier <code>ComfyUI-Enzino-H3-Studio</code> dans <code>ComfyUI/custom_nodes/</code>. (Si tu passes de Free à Full, remplace le dossier : ne garde jamais les deux.)</li>
+  <li class="en">Restart ComfyUI, then reload the page with <kbd>Ctrl</kbd>+<kbd>F5</kbd>.</li>
+  <li class="fr">Redémarre ComfyUI, puis recharge la page avec <kbd>Ctrl</kbd>+<kbd>F5</kbd>.</li>
+  <li class="en">Open <code>workflows/enzino_h3_wf.json</code> (Full edition: also <code>enzino_h3_simple.json</code> and <code>enzino_h3_studio.json</code>), or double-click the canvas and type <i>Enzino</i>.</li>
+  <li class="fr">Ouvre <code>workflows/enzino_h3_wf.json</code> (édition Full : aussi <code>enzino_h3_simple.json</code> et <code>enzino_h3_studio.json</code>), ou double-clique sur le canevas et tape <i>Enzino</i>.</li>
+  <li class="en">Open the <b>◆ Models</b> card: every missing file can be downloaded from its list (⬇). Downloads resume if they are cut.</li>
+  <li class="fr">Ouvre la carte <b>◆ Modèles</b> : chaque fichier manquant se télécharge depuis sa liste (⬇). Les téléchargements reprennent s'ils sont coupés.</li>
+</ol>
+<p class="en">Requires a recent ComfyUI with native MiniMax H3 support. Interface language: <i>Settings → Enzino → H3 Studio → Language</i>.</p>
+<p class="fr">Nécessite un ComfyUI récent avec MiniMax H3 natif. Langue de l'interface : <i>Paramètres → Enzino → H3 Studio → Language</i>.</p>
+
+<h3><span class="en">Model files</span><span class="fr">Fichiers des modèles</span></h3>
+<table class="tbl-wrap"><thead><tr><th><span class="en">Folder</span><span class="fr">Dossier</span></th><th><span class="en">Recommended file</span><span class="fr">Fichier conseillé</span></th><th><span class="en">Size</span><span class="fr">Taille</span></th></tr></thead><tbody>
+<tr><td><code>models/diffusion_models</code></td><td><code>minimax_h3_fl2va_pruned_int8_convrot.safetensors</code><br><span class="en">Keyframes model (Text, Image, First + Last, End frame). On a 16 GB card the W6A8 version fits better.</span><span class="fr">Modèle images-clés (Texte, Image, Début + Fin, Image de fin). Sur une carte 16 Go, la version W6A8 tient mieux.</span></td><td>21 GB · W6A8 16 GB</td></tr>
+<tr><td><code>models/diffusion_models</code></td><td><code>minimax_h3_ref2va_pruned_int8_convrot.safetensors</code><br><span class="en">References model, optional. Or one <b>Hybrid FL+REF</b> file used for every mode.</span><span class="fr">Modèle Références, optionnel. Ou un seul fichier <b>Hybride FL+REF</b> pour tous les modes.</span></td><td>21 GB</td></tr>
+<tr><td><code>models/text_encoders</code></td><td><code>qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors</code></td><td>15.7 GB</td></tr>
+<tr><td><code>models/vae</code></td><td><code>minimax_h3_video_vae_int8_convrot.safetensors</code> <span class="en">(or FP16 for finer detail)</span><span class="fr">(ou FP16 pour plus de finesse)</span><br><code>minimax_h3_audio_vae_fp32.safetensors</code></td><td>2.8 · 0.6 GB</td></tr>
+<tr><td><code>models/loras</code></td><td><code>minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors</code><br><span class="en">Turbo LoRA, not needed with a model that is already Turbo.</span><span class="fr">LoRA Turbo, inutile avec un modèle déjà Turbo.</span></td><td>2 GB</td></tr>
+</tbody></table>
+<p class="en">Optional, all in the ◆ Models card: the 10 official style embeddings, the sharp live-preview decoder <b>taeh3</b> (23 MB), and for the Full edition the Fun ControlNet, RIFE / FILM and the Krea 2 files.</p>
+<p class="fr">En option, tout dans la carte ◆ Modèles : les 10 styles officiels (embeddings), le décodeur d'aperçu net <b>taeh3</b> (23 Mo), et pour l'édition Full le Fun ControlNet, RIFE / FILM et les fichiers Krea 2.</p>
+<div class="note"><b class="en">Your own files.</b><b class="fr">Tes propres fichiers.</b>
+<span class="en">Every file of the folder is selectable. H3 models are recognised by their content, whatever their name; they come first, then a <i>── other files ──</i> separator and the rest of the folder. Added a file while ComfyUI runs? Press <b>↻ Rescan</b>.</span>
+<span class="fr">Tous les fichiers du dossier sont sélectionnables. Les modèles H3 sont reconnus par leur contenu, quel que soit leur nom ; ils viennent d'abord, puis un séparateur <i>── autres fichiers ──</i> et le reste du dossier. Fichier ajouté pendant que ComfyUI tourne ? Clique <b>↻ Actualiser</b>.</span></div>
+<h3><span class="en">Optional packs</span><span class="fr">Packs optionnels</span></h3>
+<ul>
+<li><a href="https://github.com/Comfy-Org/Nvidia_RTX_Nodes_ComfyUI">ComfyUI Nvidia VFX Nodes</a> — <span class="en">enables NVIDIA RTX Video Super Resolution for the upscale.</span><span class="fr">active NVIDIA RTX Video Super Resolution pour l'upscale.</span></li>
+<li><a href="https://github.com/Luisacaotica/ComfyUI-MiniMaxH3Mod">ComfyUI-MiniMaxH3Mod</a> <span class="en">by Luisa — saved references (RefMods) in the Studio.</span><span class="fr">de Luisa — références enregistrées (RefMods) dans le Studio.</span></li>
+<li><span class="en">SageAttention</span><span class="fr">SageAttention</span> — <code>pip install sageattention</code> <span class="en">in ComfyUI's Python: the biggest speed gain.</span><span class="fr">dans le Python de ComfyUI : le plus gros gain de vitesse.</span></li>
+</ul>
+</section>
+
+<!-- =============================================================== QUICK -->
+<section id="quick">
+<h2><span class="n">3</span><span class="en">Your first video</span><span class="fr">Ta première vidéo</span></h2>
+<p class="en lead">With the Simple node <span class="full">FULL</span>, in five steps. In the Free edition, do the same in the WF: ③ Prompt for the picture, prompt and format, ④ Render for the speed.</p>
+<p class="fr lead">Avec le node Simple <span class="full">FULL</span>, en cinq étapes. En édition Free, fais pareil dans le WF : ③ Prompt pour l'image, le prompt et le format, ④ Render pour la vitesse.</p>
+<ol class="steps">
+<li><span class="en">Choose <b>▣ Image</b> and drop a picture in the slot (or stay in <b>✎ Text</b>).</span><span class="fr">Choisis <b>▣ Image</b> et glisse une image dans la case (ou reste en <b>✎ Texte</b>).</span></li>
+<li><span class="en">Write what happens: who moves, how the camera moves, what we hear. Use the helper tiles if you are not sure of the H3 wording.</span><span class="fr">Écris ce qui se passe : qui bouge, comment bouge la caméra, ce qu'on entend. Utilise les tuiles d'aide si tu n'es pas sûr de la formulation H3.</span></li>
+<li><span class="en">Pick a duration (5 s is a good start) and the quality <b>✦ HD · 1 MP</b> (Turbo).</span><span class="fr">Choisis une durée (5 s pour commencer) et la qualité <b>✦ HD · 1 MP</b> (Turbo).</span></li>
+<li><span class="en">Press <b>Run</b>: the clip previews live while it renders.</span><span class="fr">Clique <b>Run</b> : le clip s'affiche en direct pendant le calcul.</span></li>
+<li><span class="en">Happy with it? Keep the same seed and switch to <b>★ Max</b> (Full) for the final.</span><span class="fr">Ça te plaît ? Garde le même seed et passe en <b>★ Max</b> (Full) pour le rendu final.</span></li>
+</ol>
+<div class="tip"><b>💡</b><span class="en">Image modes: describe <b>what moves</b>, not the picture. H3 already sees it.</span><span class="fr">Modes image : décris <b>ce qui bouge</b>, pas l'image. H3 la voit déjà.</span></div>
+</section>
+
+<!-- =============================================================== MODES -->
+<section id="modes">
+<h2><span class="n">4</span><span class="en">Modes</span><span class="fr">Modes</span></h2>
+<table class="tbl-wrap"><thead><tr><th><span class="en">Mode</span><span class="fr">Mode</span></th><th><span class="en">What it does</span><span class="fr">Ce qu'il fait</span></th><th><span class="en">Where</span><span class="fr">Où</span></th></tr></thead><tbody>
+<tr><td>✎ <span class="en">Text</span><span class="fr">Texte</span></td><td><span class="en">Video and sound from the prompt alone.</span><span class="fr">Vidéo et son à partir du prompt seul.</span></td><td>Simple · WF · Studio</td></tr>
+<tr><td>▣ Image</td><td><span class="en">Animates a picture: it becomes the first frame.</span><span class="fr">Anime une image : elle devient la première image.</span></td><td>Simple · WF · Studio</td></tr>
+<tr><td>⇆ <span class="en">First + Last</span><span class="fr">Début + Fin</span></td><td><span class="en">Goes from one picture to the other over the clip.</span><span class="fr">Passe d'une image à l'autre sur la durée du clip.</span></td><td>WF · Studio</td></tr>
+<tr><td>⚑ <span class="en">End frame</span><span class="fr">Image de fin</span></td><td><span class="en">Lands on a picture at the end of the clip.</span><span class="fr">Finit sur une image à la fin du clip.</span></td><td>Studio</td></tr>
+<tr><td>✦ <span class="en">References</span><span class="fr">Références</span></td><td><span class="en">Up to 9 pictures (a character, an object, a place, a look) that you cite in the prompt as <code>&lt;Picture 1&gt;</code>, <code>&lt;Picture 2&gt;</code>… The Studio also takes a reference video and a reference audio.</span><span class="fr">Jusqu'à 9 images (un perso, un objet, un lieu, un look) que tu cites dans le prompt avec <code>&lt;Picture 1&gt;</code>, <code>&lt;Picture 2&gt;</code>… Le Studio accepte aussi une vidéo et un audio de référence.</span></td><td>WF · Studio</td></tr>
+</tbody></table>
+<div class="split">
+<div>
+<h3><span class="en">References in practice</span><span class="fr">Les références en pratique</span></h3>
+<ul>
+<li><span class="en">Needs a References model (REF2VA) or the Hybrid FL+REF file, picked in ◆ Models.</span><span class="fr">Il faut un modèle Références (REF2VA) ou le fichier Hybride FL+REF, choisi dans ◆ Modèles.</span></li>
+<li><span class="en">Click a picture's tag to insert <code>&lt;Picture n&gt;</code> at the cursor. Numbers follow the order of the tiles.</span><span class="fr">Clique l'étiquette d'une image pour insérer <code>&lt;Picture n&gt;</code> au curseur. La numérotation suit l'ordre des vignettes.</span></li>
+<li><span class="en">No picture header is added in this mode: you decide how each picture is used.</span><span class="fr">Pas d'en-tête image dans ce mode : c'est toi qui dis comment chaque image est utilisée.</span></li>
+<li><span class="en"><b>Reference picture size</b> (Advanced): <i>Match</i> is fast, <i>Max</i> keeps a better likeness and is slower.</span><span class="fr"><b>Taille des images de référence</b> (Avancé) : <i>Adaptée</i> est rapide, <i>Max</i> garde une meilleure ressemblance et est plus lent.</span></li>
+<li><span class="en">The WF ③ Prompt node has a <code>references</code> input: pictures connected there are added after the card's.</span><span class="fr">Le node WF ③ Prompt a une entrée <code>references</code> : les images branchées là s'ajoutent après celles de la carte.</span></li>
+<li><span class="en">Studio only: a reference video (motion, edit, continuation; conformed to 24 fps, cut at 15 s) whose sound can become <code>&lt;Audio 1&gt;</code>, a reference audio (voice, music), and saved references from the RefMod pack.</span><span class="fr">Studio seulement : une vidéo de référence (mouvement, montage, suite ; mise à 24 i/s, coupée à 15 s) dont le son peut devenir <code>&lt;Audio 1&gt;</code>, un audio de référence (voix, musique), et les références enregistrées du pack RefMod.</span></li>
+</ul>
+<pre><code>[Shot 1] Live-action, cinematic. &lt;Picture 1&gt; walks along the harbour at dusk
+wearing the jacket from &lt;Picture 2&gt;. The camera tracks beside her.</code></pre>
+</div>
+<figure><img src="wf_references.jpg" alt="References in WF ③ Prompt"><figcaption class="en">References in the WF ③ Prompt card.</figcaption><figcaption class="fr">Les références dans la carte ③ Prompt du WF.</figcaption></figure>
+</div>
+<h3><span class="en">Studio extras</span><span class="fr">Les bonus du Studio</span></h3>
+<ul>
+<li><b><span class="en">Mid keyframe</span><span class="fr">Image du milieu</span></b> — <span class="en">a third picture placed anywhere in the clip (position slider), in Image / First + Last modes.</span><span class="fr">une troisième image placée où tu veux dans le clip (curseur de position), en modes Image / Début + Fin.</span></li>
+<li><b>♪ <span class="en">Your sound</span><span class="fr">Ton son</span></b> — <span class="en">drop a voice, a dialogue or a music track and choose where it starts: H3 keeps your audio and builds the picture and the lip-sync around it. Describe the speaker in the prompt.</span><span class="fr">glisse une voix, un dialogue ou une musique et choisis où elle commence : H3 garde ton audio et construit l'image et la synchro labiale autour. Décris la personne qui parle dans le prompt.</span></li>
+<li><span class="en">Connected sockets win over the slots: <code>first_frame</code>, <code>last_frame</code>, <code>references</code>, <code>audio</code>.</span><span class="fr">Une entrée branchée passe avant la case : <code>first_frame</code>, <code>last_frame</code>, <code>references</code>, <code>audio</code>.</span></li>
+</ul>
+</section>
+
+<!-- =============================================================== PROMPT -->
+<section id="prompt">
+<h2><span class="n">5</span><span class="en">Writing the prompt</span><span class="fr">Écrire le prompt</span></h2>
+<p class="en lead">H3 was trained on a structured prompt. The pack uses that official format and writes the fiddly parts for you.</p>
+<p class="fr lead">H3 a été entraîné sur un prompt structuré. Le pack utilise ce format officiel et écrit pour toi les parties délicates.</p>
+<pre><code>integrated_multimodal_description: [Shot 1] Live-action, cinematic, a wide shot at blue hour
+frames a lighthouse on a granite headland… The camera pushes in slowly as the lantern flickers on.
+[Shot 2] At 00:02.500, the camera cuts to a medium close-up of the old keeper; the gruff,
+low-voiced old man (S1) says: &lt;d&gt;[French] Elle tiendra encore cette nuit.&lt;/d&gt;
+
+overall_soundscape: howling wind, waves crashing on the rocks, rain on oilskin.
+
+non_diegetic_music: low cello drone, slow, building.</code></pre>
+<h3><span class="en">Automatic picture header</span><span class="fr">En-tête image automatique</span></h3>
+<p class="en">In Image, First + Last and End frame modes, H3 needs a sentence telling it where each picture sits in time. It is added for you (shown with an <b>AUTO</b> badge above the prompt) with the right shot number and timing. Turn it off in Advanced if you write your own; a prompt that already starts with <i>For the target video</i> or <i>How the reference pictures</i> is left alone.</p>
+<p class="fr">En modes Image, Début + Fin et Image de fin, H3 a besoin d'une phrase qui dit où se place chaque image dans le temps. Elle est ajoutée pour toi (badge <b>AUTO</b> au-dessus du prompt) avec le bon numéro de plan et le bon timing. Désactive-la dans Avancé si tu écris la tienne ; un prompt qui commence déjà par <i>For the target video</i> ou <i>How the reference pictures</i> n'est pas touché.</p>
+<h3><span class="en">Prompt helpers</span><span class="fr">Aides au prompt</span></h3>
+<p class="en">Small forms that write correct H3 sentences, with a live preview, inserted at the cursor.</p>
+<p class="fr">De petits formulaires qui écrivent des phrases H3 correctes, avec un aperçu en direct, insérées au curseur.</p>
+<table class="tbl-wrap"><tbody>
+<tr><td>⧉ Structure</td><td><span class="en">Replaces the prompt with the empty three-part template.</span><span class="fr">Remplace le prompt par le modèle vide en trois parties.</span></td></tr>
+<tr><td>🎬 <span class="en">Shot</span><span class="fr">Plan</span></td><td><span class="en">A new <code>[Shot n]</code> with its start time, transition and framing. Numbers follow on.</span><span class="fr">Un nouveau <code>[Shot n]</code> avec son heure de début, sa transition et son cadrage. La numérotation suit.</span></td></tr>
+<tr><td>🎥 <span class="en">Camera</span><span class="fr">Caméra</span></td><td><span class="en">18 moves (push, pull, pan, orbit, crane, handheld…) with amplitude, speed and target. One clear move works best.</span><span class="fr">18 mouvements (avancée, recul, panoramique, orbite, grue, caméra à l'épaule…) avec amplitude, vitesse et cible. Un seul mouvement clair, c'est le mieux.</span></td></tr>
+<tr><td>💬 Dialogue</td><td><span class="en">Who speaks (new voice or an existing S1/S2), age, voice, tone, pace, language and the exact words. Speakers are tracked for you.</span><span class="fr">Qui parle (nouvelle voix ou S1/S2 existant), âge, voix, ton, débit, langue et texte exact. Les intervenants sont suivis pour toi.</span></td></tr>
+<tr><td>🎙 <span class="en">Voice-over</span><span class="fr">Voix off</span></td><td><span class="en">Same, off-screen, lips closed.</span><span class="fr">Pareil, hors champ, bouche fermée.</span></td></tr>
+<tr><td>🔤 <span class="en">Text on screen</span><span class="fr">Texte à l'écran</span></td><td><span class="en">A sign, a title, a caption… H3 writes it in the picture.</span><span class="fr">Une enseigne, un titre, une légende… H3 l'écrit dans l'image.</span></td></tr>
+<tr><td>🌊 <span class="en">Soundscape</span><span class="fr">Ambiance</span></td><td><span class="en">Sets the <code>overall_soundscape</code> line.</span><span class="fr">Remplit la ligne <code>overall_soundscape</code>.</span></td></tr>
+<tr><td>🎵 <span class="en">Music</span><span class="fr">Musique</span></td><td><span class="en">Sets the <code>non_diegetic_music</code> line (style, tempo, shape), or <i>no background music</i>.</span><span class="fr">Remplit la ligne <code>non_diegetic_music</code> (style, tempo, évolution), ou <i>pas de musique de fond</i>.</span></td></tr>
+</tbody></table>
+<div class="tip"><b>💡</b><span class="en">Dialogue syntax: <code>the gruff old man (S1) says: &lt;d&gt;[French] Texte exact.&lt;/d&gt;</code>. H3 speaks 11 languages and keeps the words exactly as written.</span><span class="fr">Syntaxe du dialogue : <code>the gruff old man (S1) says: &lt;d&gt;[French] Texte exact.&lt;/d&gt;</code>. H3 parle 11 langues et garde le texte tel quel.</span></div>
+<h3>Style</h3>
+<p class="en">Advanced → Style applies one of the 10 official H3 effects (Bullet time, Dark magic, Four seasons, Spiral ascent, Truman show…). Needs the style embeddings, downloadable from ◆ Models.</p>
+<p class="fr">Avancé → Style applique un des 10 effets H3 officiels (Bullet time, Dark magic, Four seasons, Spiral ascent, Truman show…). Nécessite les embeddings de style, à télécharger depuis ◆ Modèles.</p>
+</section>
+
+<!-- =============================================================== FORMAT -->
+<section id="format">
+<h2><span class="n">6</span><span class="en">Format &amp; duration</span><span class="fr">Format &amp; durée</span></h2>
+<p class="en lead">Size works by <b>pixel budget</b>, like the official H3 selector: every format gets the same number of pixels, rounded to multiples of 32. <i>Auto</i> takes the ratio of your picture (16:9 without picture).</p>
+<p class="fr lead">La taille fonctionne par <b>budget de pixels</b>, comme le sélecteur officiel H3 : chaque format a le même nombre de pixels, arrondi au multiple de 32. <i>Auto</i> prend le ratio de ton image (16:9 sans image).</p>
+<div class="hscroll"><table><thead><tr><th><span class="en">Budget</span><span class="fr">Budget</span></th><th>16:9</th><th>9:16</th><th>1:1</th><th>4:3</th><th>21:9</th></tr></thead><tbody>
+<tr><td>0.6 MP</td><td>1024×576</td><td>576×1024</td><td>768×768</td><td>864×672</td><td>1152×512</td></tr>
+<tr><td>0.9 MP</td><td>1280×704</td><td>704×1280</td><td>960×960</td><td>1120×832</td><td>1440×640</td></tr>
+<tr><td>1.0 MP ★</td><td>1344×768</td><td>768×1344</td><td>992×992</td><td>1152×864</td><td>1536×672</td></tr>
+<tr><td>1.3 MP</td><td>1504×864</td><td>864×1504</td><td>1120×1120</td><td>—</td><td>—</td></tr>
+<tr><td>1.5 MP</td><td>1632×928</td><td>928×1632</td><td>1216×1216</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<p class="en"><b>✎ Custom</b> sets your own budget from 0.3 to 3 MP. <b>1 MP is H3's native size and the best quality.</b> Above ~1 MP it is slower and beyond what H3 learned; past ~1.5 MP faces and motion can fall apart. Rendering at 1 MP and upscaling is usually cleaner.</p>
+<p class="fr"><b>✎ Perso</b> règle ton propre budget de 0,3 à 3 MP. <b>1 MP est la taille native de H3 et la meilleure qualité.</b> Au-delà de ~1 MP c'est plus lent et hors de ce que H3 a appris ; après ~1,5 MP visages et mouvement peuvent se dégrader. Rendre à 1 MP puis upscaler est en général plus propre.</p>
+<h3><span class="en">Duration</span><span class="fr">Durée</span></h3>
+<p class="en">1 to 15 seconds at 24 fps. H3 uses a frame grid of 17k+5 frames, so the duration is rounded up to the next valid length: 3 s = 73 frames, 5 s = 124, 8 s = 192, 10 s = 243, 12 s = 294, 15 s = 362.</p>
+<p class="fr">De 1 à 15 secondes à 24 i/s. H3 utilise une grille de 17k+5 images, donc la durée est arrondie à la longueur valide suivante : 3 s = 73 images, 5 s = 124, 8 s = 192, 10 s = 243, 12 s = 294, 15 s = 362.</p>
+</section>
+
+<!-- =============================================================== RENDER -->
+<section id="render">
+<h2><span class="n">7</span><span class="en">Render settings</span><span class="fr">Réglages de rendu</span></h2>
+<table class="tbl-wrap"><tbody>
+<tr><td>⚡ Turbo</td><td><span class="en">Fast. Uses the Turbo LoRA (8 steps, or 4 with a 4-step LoRA). With a model that is already Turbo, set the Turbo LoRA to <i>none</i>: 4 steps if the model name contains <i>4step</i>, else 8.</span><span class="fr">Rapide. Utilise la LoRA Turbo (8 steps, ou 4 avec une LoRA 4 steps). Avec un modèle déjà Turbo, mets la LoRA Turbo sur <i>aucune</i> : 4 steps si le nom du modèle contient <i>4step</i>, sinon 8.</span></td></tr>
+<tr><td>✦ Full</td><td><span class="en">Best quality: 13 steps with the step cache, 20 without.</span><span class="fr">Meilleure qualité : 13 steps avec le cache des steps, 20 sans.</span></td></tr>
+<tr><td>Steps</td><td><span class="en"><i>auto</i> (0) picks the right count for the speed. Set a number to force it.</span><span class="fr"><i>auto</i> (0) choisit le bon nombre selon la vitesse. Mets un nombre pour le forcer.</span></td></tr>
+<tr><td>Seed 🎲 🔒</td><td><span class="en">🎲 new random seed, 🔒 keep it between runs. Changing only the seed reuses the encoded prompt (fast).</span><span class="fr">🎲 nouveau seed au hasard, 🔒 le garder entre deux rendus. Changer seulement le seed réutilise le prompt encodé (rapide).</span></td></tr>
+<tr><td>Sampler · scheduler</td><td><span class="en">Default <code>res_multistep</code> · <code>simple</code>. Leave them unless you know why.</span><span class="fr">Par défaut <code>res_multistep</code> · <code>simple</code>. Laisse-les sauf si tu sais pourquoi.</span></td></tr>
+<tr><td>Shift</td><td><span class="en">Studio, Advanced: video / audio shift (12 / 3 by default when on).</span><span class="fr">Studio, Avancé : shift vidéo / audio (12 / 3 par défaut quand activé).</span></td></tr>
+<tr><td><span class="en">Live preview</span><span class="fr">Aperçu en direct</span></td><td><span class="en">The whole clip plays in the card while it renders. With taeh3 installed it is sharp.</span><span class="fr">Tout le clip se joue dans la carte pendant le calcul. Avec taeh3 installé, il est net.</span></td></tr>
+</tbody></table>
+</section>
+
+<!-- =============================================================== SPEED -->
+<section id="speed">
+<h2><span class="n">8</span><span class="en">Speed &amp; memory</span><span class="fr">Vitesse &amp; mémoire</span></h2>
+<p class="en lead">Everything is automatic. These settings are there when you want to tune.</p>
+<p class="fr lead">Tout est automatique. Ces réglages sont là quand tu veux affiner.</p>
+<table class="tbl-wrap"><tbody>
+<tr><td>Attention</td><td><span class="en"><i>auto</i> takes the fastest installed: SageAttention → SageAttention 3 → Flash. If one fails it falls back to PyTorch by itself and remembers it.</span><span class="fr"><i>auto</i> prend la plus rapide installée : SageAttention → SageAttention 3 → Flash. Si l'une plante, repli tout seul sur PyTorch, et c'est mémorisé.</span></td></tr>
+<tr><td><span class="en">Step cache</span><span class="fr">Cache des steps</span></td><td><span class="en">Native EasyCache: skips steps whose result barely changes (~4 of 13 in Full). <i>auto</i> = light in Full, off in Turbo. <i>strong</i> is faster, softer.</span><span class="fr">EasyCache natif : saute les steps dont le résultat change à peine (~4 sur 13 en Full). <i>auto</i> = léger en Full, désactivé en Turbo. <i>fort</i> est plus rapide, plus doux.</span></td></tr>
+<tr><td><span class="en">Sparse attention</span><span class="fr">Attention sparse</span></td><td><span class="en">Native H3 sparse attention. Faster on long clips; <i>tau</i> 1.3 is balanced, higher is faster.</span><span class="fr">Attention sparse native de H3. Plus rapide sur les clips longs ; <i>tau</i> 1,3 est équilibré, plus haut est plus rapide.</span></td></tr>
+<tr><td><span class="en">Low VRAM</span><span class="fr">Faible VRAM</span></td><td><span class="en">Splits the feed-forward of each block: same result, ~4 GB less at peak. <i>auto</i> = on under 20 GB.</span><span class="fr">Découpe le feed-forward de chaque bloc : même résultat, ~4 Go de moins au pic. <i>auto</i> = activé sous 20 Go.</span></td></tr>
+<tr><td><span class="en">Prompt cache</span><span class="fr">Cache du prompt</span></td><td><span class="en">Keeps the encoded prompt: a seed change skips the 32B text encoder.</span><span class="fr">Garde le prompt encodé : changer le seed saute l'encodeur 32B.</span></td></tr>
+<tr><td><span class="en">Keep models loaded</span><span class="fr">Garder les modèles chargés</span></td><td><span class="en">Reuses the patched model between runs.</span><span class="fr">Réutilise le modèle patché d'un rendu à l'autre.</span></td></tr>
+<tr><td><span class="en">Free text encoder</span><span class="fr">Libérer l'encodeur</span></td><td><span class="en">Unloads it right after use. Turn on when RAM is short.</span><span class="fr">Le décharge juste après usage. À activer si la RAM manque.</span></td></tr>
+<tr><td><span class="en">Tiled decode</span><span class="fr">Décodage en tuiles</span></td><td><span class="en">Decodes the video in tiles: less VRAM at the end of the render.</span><span class="fr">Décode la vidéo par tuiles : moins de VRAM à la fin du rendu.</span></td></tr>
+<tr><td><span class="en">Weight precision</span><span class="fr">Précision des poids</span></td><td><span class="en">In ◆ Models, Advanced. Leave on <i>default</i> for INT8 / W6A8 files.</span><span class="fr">Dans ◆ Modèles, Avancé. Laisse sur <i>default</i> pour les fichiers INT8 / W6A8.</span></td></tr>
+</tbody></table>
+<p class="en">Behind the scenes: the text encoder and the video model never sit in RAM together when RAM is short (no Windows paging), the encoded prompt is kept on the CPU, VRAM headroom is kept for the computation, and if the card runs out of memory the render retries once with more headroom.</p>
+<p class="fr">En coulisses : l'encodeur de texte et le modèle vidéo ne restent jamais ensemble en RAM quand elle manque (pas de swap Windows), le prompt encodé est gardé côté CPU, une marge de VRAM est gardée pour le calcul, et si la carte manque de mémoire le rendu est relancé une fois avec plus de marge.</p>
+<div class="tip"><b>16 GB</b><span class="en">Install SageAttention, use the W6A8 model, explore in ⚡ Draft, then render the final at 1 MP and upscale.</span><span class="fr">Installe SageAttention, prends le modèle W6A8, explore en ⚡ Brouillon, puis rends le final à 1 MP et upscale.</span></div>
+</section>
+
+<!-- =============================================================== LORAS -->
+<section id="loras">
+<h2><span class="n">9</span>LoRAs</h2>
+<p class="en">Add your MiniMax H3 LoRAs (characters, styles, motions) from the list; H3 LoRAs come first, the others below. Each one has a strength slider (−1 to 2) and an on/off switch. In the Studio, trigger words are one click away. <b>Free: 3 LoRAs · Full: 8.</b></p>
+<p class="fr">Ajoute tes LoRAs MiniMax H3 (persos, styles, mouvements) depuis la liste ; les LoRAs H3 viennent d'abord, les autres en dessous. Chacune a un curseur d'intensité (−1 à 2) et un interrupteur. Dans le Studio, les mots-clés sont à un clic. <b>Free : 3 LoRAs · Full : 8.</b></p>
+<p class="en">The Turbo LoRA is not in this list: it is set in ◆ Models and used only in ⚡ Turbo.</p>
+<p class="fr">La LoRA Turbo n'est pas dans cette liste : elle se règle dans ◆ Modèles et ne sert qu'en ⚡ Turbo.</p>
+</section>
+
+<!-- =============================================================== SIMPLE -->
+<section id="simple">
+<h2><span class="n">10</span>✦ Enzino H3 Simple <span class="full">FULL</span></h2>
+<figure><img src="simple.jpg" alt="Enzino H3 Simple"></figure>
+<p class="en">Three columns: <b>picture + prompt</b> · <b>clip, LoRAs and models</b> · <b>result</b>. In portrait the columns stack. You choose the mode (Text / Image), duration (3, 5, 8, 10 s), format (Auto, 16:9, 9:16, 1:1), quality, seed, models and LoRAs. Speed and memory run on <i>auto</i>, tuned to the GPU of whoever runs it.</p>
+<p class="fr">Trois colonnes : <b>image + prompt</b> · <b>clip, LoRAs et modèles</b> · <b>résultat</b>. En portrait, les colonnes s'empilent. Tu choisis le mode (Texte / Image), la durée (3, 5, 8, 10 s), le format (Auto, 16:9, 9:16, 1:1), la qualité, le seed, les modèles et les LoRAs. Vitesse et mémoire tournent en <i>auto</i>, adaptés à la carte de la personne qui l'utilise.</p>
+<table class="tbl-wrap"><thead><tr><th><span class="en">Quality</span><span class="fr">Qualité</span></th><th></th></tr></thead><tbody>
+<tr><td>⚡ <span class="en">Fast</span><span class="fr">Rapide</span></td><td>0.6 MP · Turbo</td></tr>
+<tr><td>✦ HD</td><td>1 MP · Turbo</td></tr>
+<tr><td>★ Max</td><td>1 MP · Full</td></tr>
+<tr><td>✎ <span class="en">Custom</span><span class="fr">Perso</span></td><td><span class="en">Your MP budget, Turbo or Full</span><span class="fr">Ton budget en MP, Turbo ou Full</span></td></tr>
+</tbody></table>
+<p class="en">Open <code>workflows/enzino_h3_simple.json</code> or add the node by hand.</p>
+<p class="fr">Ouvre <code>workflows/enzino_h3_simple.json</code> ou ajoute le node à la main.</p>
+</section>
+
+<!-- =============================================================== WF -->
+<section id="wf">
+<h2><span class="n">11</span>✦ Enzino H3 WF</h2>
+<figure><img src="wf.jpg" alt="Enzino H3 WF"></figure>
+<div class="flow"><span>① Models</span><i>→</i><span>② LoRAs</span><i>→</i><span>③ Prompt</span><i>→</i><span>④ Render</span><i>→</i><span>⑤ Enhance</span><i>→</i><span>⑥ Output</span></div>
+<p class="en">Six nodes joined by one ✦ wire that carries the settings and the clip. Open <code>workflows/enzino_h3_wf.json</code>. The header has a <b>⚡ Draft / ✦ Final</b> switch: Draft = 0.6 MP, Turbo, no enhancement; Final brings your settings back.</p>
+<p class="fr">Six nodes reliés par un seul fil ✦ qui transporte les réglages et le clip. Ouvre <code>workflows/enzino_h3_wf.json</code>. L'en-tête a un bouton <b>⚡ Brouillon / ✦ Final</b> : Brouillon = 0,6 MP, Turbo, sans amélioration ; Final remet tes réglages.</p>
+<table class="tbl-wrap"><thead><tr><th>Node</th><th><span class="en">What you set</span><span class="fr">Ce que tu règles</span></th><th><span class="en">Outputs</span><span class="fr">Sorties</span></th></tr></thead><tbody>
+<tr><td>① Models</td><td><span class="en">Video model, text encoder, video and audio VAE, Turbo LoRA, and optionally the References model and its Turbo LoRA. Download and rescan from the card.</span><span class="fr">Modèle vidéo, encodeur de texte, VAE vidéo et audio, LoRA Turbo, et en option le modèle Références et sa LoRA Turbo. Téléchargement et actualisation depuis la carte.</span></td><td>✦</td></tr>
+<tr><td>② LoRAs</td><td><span class="en">Your LoRA stack.</span><span class="fr">Ta pile de LoRAs.</span></td><td>✦</td></tr>
+<tr><td>③ Prompt</td><td><span class="en">Mode (Text, Image, First + Last, References), pictures, prompt with helpers, style, duration, format, size. Inputs <code>first_frame</code>, <code>last_frame</code>, <code>references</code>.</span><span class="fr">Mode (Texte, Image, Début + Fin, Références), images, prompt avec aides, style, durée, format, taille. Entrées <code>first_frame</code>, <code>last_frame</code>, <code>references</code>.</span></td><td>✦</td></tr>
+<tr><td>④ Render</td><td><span class="en">Turbo / Full, seed, steps, and in Advanced every speed and memory setting. Shows the raw clip, live.</span><span class="fr">Turbo / Full, seed, steps, et dans Avancé tous les réglages vitesse et mémoire. Affiche le clip brut, en direct.</span></td><td>✦ · frames · audio</td></tr>
+<tr><td>⑤ Enhance</td><td><span class="en">Three tabs: <b>Krea 2</b> second pass <span class="full">FULL</span> · <b>Upscale</b> (1080p, 1440p, 4K <span class="full">FULL</span>) · <b>Fps</b> 48 / 72 <span class="full">FULL</span>. Shows the enhanced clip.</span><span class="fr">Trois onglets : <b>Krea 2</b> 2e passe <span class="full">FULL</span> · <b>Upscale</b> (1080p, 1440p, 4K <span class="full">FULL</span>) · <b>Fps</b> 48 / 72 <span class="full">FULL</span>. Affiche le clip amélioré.</span></td><td>✦ · frames</td></tr>
+<tr><td>⑥ Output</td><td><span class="en">Save on/off, file name and folder, signature and social formats <span class="full">FULL</span>, player, history.</span><span class="fr">Enregistrer oui/non, nom et dossier, signature et formats réseaux <span class="full">FULL</span>, lecteur, historique.</span></td><td>video · frames · audio</td></tr>
+</tbody></table>
+<div class="tip"><b>💡</b><span class="en">⑤ Enhance is optional: wire ④ Render straight into ⑥ Output. You can also plug your own nodes on the <code>frames</code> / <code>audio</code> outputs.</span><span class="fr">⑤ Enhance est optionnel : branche ④ Render directement sur ⑥ Output. Tu peux aussi brancher tes propres nodes sur les sorties <code>frames</code> / <code>audio</code>.</span></div>
+</section>
+
+<!-- =============================================================== STUDIO -->
+<section id="studio">
+<h2><span class="n">12</span>✦ Enzino H3 Studio <span class="full">FULL</span></h2>
+<figure><img src="studio.jpg" alt="Enzino H3 Studio"></figure>
+<p class="en">One landscape node in three columns: <b>create</b> (mode, pictures, references, prompt) · <b>settings</b> in tabs · <b>result</b>. The header holds the mode, ⚡ Draft / ✦ Final, presets, the layout switch (▣ Studio, ▥ Columns, ▤ Tall) and the height (↕ S, M, <b>L</b> by default, XL).</p>
+<p class="fr">Un node en paysage sur trois colonnes : <b>créer</b> (mode, images, références, prompt) · <b>réglages</b> en onglets · <b>résultat</b>. L'en-tête contient le mode, ⚡ Brouillon / ✦ Final, les presets, la disposition (▣ Studio, ▥ Colonnes, ▤ Haute) et la hauteur (↕ S, M, <b>L</b> par défaut, XL).</p>
+<table class="tbl-wrap"><thead><tr><th><span class="en">Tab</span><span class="fr">Onglet</span></th><th><span class="en">Inside</span><span class="fr">Contenu</span></th></tr></thead><tbody>
+<tr><td>⚙ <span class="en">Speed · models</span><span class="fr">Vitesse · modèles</span></td><td><span class="en">Speed profile, attention, step cache, low VRAM and the rest of <a href="#speed">Speed &amp; memory</a>; the ◆ Models card. A GPU tip appears when a lighter model would fit your card better.</span><span class="fr">Profil de vitesse, attention, cache des steps, faible VRAM et le reste de <a href="#speed">Vitesse &amp; mémoire</a> ; la carte ◆ Modèles. Un conseil apparaît quand un modèle plus léger irait mieux à ta carte.</span></td></tr>
+<tr><td>◷ Clip</td><td><span class="en">Duration, format and size, upscale, render (Turbo / Full, seed, steps).</span><span class="fr">Durée, format et taille, upscale, rendu (Turbo / Full, seed, steps).</span></td></tr>
+<tr><td>◈ <span class="en">LoRAs · sound</span><span class="fr">LoRAs · son</span></td><td><span class="en">LoRA stack and ♪ Your sound.</span><span class="fr">Pile de LoRAs et ♪ Ton son.</span></td></tr>
+<tr><td>☰ <span class="en">Story · motion</span><span class="fr">Histoire · mouvement</span> <span class="full">FULL</span></td><td><span class="en">Story mode, motion control and retouch.</span><span class="fr">Mode histoire, contrôle du mouvement et retouche.</span></td></tr>
+<tr><td>✦ <span class="en">Finish · save</span><span class="fr">Finition · export</span></td><td><span class="en">Krea 2 pass, fps, signature, social formats, save.</span><span class="fr">Passe Krea 2, i/s, signature, formats réseaux, enregistrement.</span></td></tr>
+</tbody></table>
+<h3><span class="en">The result column</span><span class="fr">La colonne résultat</span></h3>
+<ul>
+<li><span class="en">Player with sound, size, length and fps.</span><span class="fr">Lecteur avec le son, taille, durée et i/s.</span></li>
+<li><b>↪</b> <span class="en">Continue from the last frame: the last image becomes the first of a new clip.</span><span class="fr">Continuer depuis la dernière image : elle devient la première d'un nouveau clip.</span></li>
+<li><span class="en">Reuse seed · Restore all settings of that render · Retouch this <span class="full">FULL</span>.</span><span class="fr">Reprendre le seed · Restaurer tous les réglages de ce rendu · Retoucher ce clip <span class="full">FULL</span>.</span></li>
+<li><span class="en">History of recent renders, with a <b>Clear</b> button.</span><span class="fr">Historique des rendus récents, avec un bouton <b>Vider</b>.</span></li>
+<li><span class="en">If a render fails, the error shows in the node with <i>Copy the error</i> and <i>Reset every setting</i>.</span><span class="fr">Si un rendu échoue, l'erreur s'affiche dans le node avec <i>Copier l'erreur</i> et <i>Réinitialiser tous les réglages</i>.</span></li>
+</ul>
+</section>
+
+<!-- =============================================================== KREA -->
+<section id="krea">
+<h2><span class="n">13</span><span class="en">Krea 2 second pass</span><span class="fr">2e passe Krea 2</span> <span class="full">FULL</span></h2>
+<p class="en lead">Every frame is re-detailed by Krea 2 at a low denoise, with the same noise on every frame so the detail holds still.</p>
+<p class="fr lead">Chaque image est redétaillée par Krea 2 à faible denoise, avec le même bruit sur toutes les images pour que le détail reste stable.</p>
+<table class="tbl-wrap"><tbody>
+<tr><td><span class="en">Krea 2 may change</span><span class="fr">Krea 2 peut changer</span></td><td><span class="en"><b>Fine detail only</b> (default): only skin, hair and fabric texture is taken from Krea 2; colours, faces, shapes and motion stay H3's. <b>Whole image</b>: Krea 2 repaints more, risk of flicker.</span><span class="fr"><b>Détail fin seul</b> (par défaut) : seule la texture (peau, cheveux, tissus) vient de Krea 2 ; couleurs, visages, formes et mouvement restent ceux de H3. <b>Image entière</b> : Krea 2 repeint davantage, risque de scintillement.</span></td></tr>
+<tr><td>Denoise</td><td><span class="en">0.15 by default. 0.10–0.20 keeps the clip; above 0.3 it starts to change.</span><span class="fr">0,15 par défaut. 0,10–0,20 garde le clip ; au-delà de 0,3 il commence à changer.</span></td></tr>
+<tr><td>Steps</td><td><span class="en">4, 6 or 8. 4 is right for Flash / distilled models.</span><span class="fr">4, 6 ou 8. 4 convient aux modèles Flash / distillés.</span></td></tr>
+<tr><td><span class="en">Anti-flicker</span><span class="fr">Anti-scintillement</span></td><td><span class="en">A temporal filter smooths the added detail across frames. Keep it on.</span><span class="fr">Un filtre temporel lisse le détail ajouté d'une image à l'autre. Garde-le activé.</span></td></tr>
+<tr><td><span class="en">Model · text encoder · VAE</span><span class="fr">Modèle · encodeur · VAE</span></td><td><span class="en">Krea 2 model (IntoRealism Krea 2 Flash works great), Qwen3-VL 4B text encoder, Qwen-Image VAE. All downloadable from ◆ Models.</span><span class="fr">Modèle Krea 2 (IntoRealism Krea 2 Flash marche très bien), encodeur Qwen3-VL 4B, VAE Qwen-Image. Tout se télécharge depuis ◆ Modèles.</span></td></tr>
+<tr><td>Prompt</td><td><span class="en">Optional: a short description of the look (e.g. <i>sharp skin texture, film grain</i>).</span><span class="fr">Optionnel : une courte description du rendu (ex. <i>sharp skin texture, film grain</i>).</span></td></tr>
+</tbody></table>
+<div class="note"><b class="en">Soft faces far away?</b><b class="fr">Visages lointains flous ?</b><span class="en">Render at 1 MP (or 1.3–1.5 MP custom), in ✦ Full, with the FP16 video VAE and a closer framing in the prompt; the Krea 2 pass adds texture on top.</span><span class="fr">Rends à 1 MP (ou 1,3–1,5 MP en perso), en ✦ Full, avec le VAE vidéo FP16 et un cadrage plus serré dans le prompt ; la passe Krea 2 ajoute la texture par-dessus.</span></div>
+</section>
+
+<!-- =============================================================== STORY -->
+<section id="story">
+<h2><span class="n">14</span><span class="en">Story mode &amp; variations</span><span class="fr">Mode histoire &amp; variations</span> <span class="full">FULL</span></h2>
+<p class="en"><b>Story mode</b> (Studio) chains up to 12 shots into one long video. Each shot has its own prompt and duration and starts on the last frame of the previous one; the sound is crossfaded between shots. The first shot uses the main prompt and mode.</p>
+<p class="fr"><b>Le mode histoire</b> (Studio) enchaîne jusqu'à 12 plans en une longue vidéo. Chaque plan a son prompt et sa durée et démarre sur la dernière image du précédent ; le son est fondu entre les plans. Le premier plan utilise le prompt et le mode principaux.</p>
+<p class="en"><b>Variations</b> (Studio) renders 2 to 4 seeds in one run. Pick the best one, then press ✦ Final from it.</p>
+<p class="fr"><b>Variations</b> (Studio) rend 2 à 4 seeds en un lancement. Choisis la meilleure, puis clique ✦ Final depuis celle-ci.</p>
+</section>
+
+<!-- =============================================================== CONTROL -->
+<section id="control">
+<h2><span class="n">15</span><span class="en">Motion control &amp; retouch</span><span class="fr">Contrôle du mouvement &amp; retouche</span> <span class="full">FULL</span></h2>
+<h4><span class="en">Motion control</span><span class="fr">Contrôle du mouvement</span></h4>
+<p class="en">A pose or depth video drives the motion through the native H3 Fun ControlNet. Choose <i>as is</i> (the video is already a pose / depth map) or <i>canny</i> (edges are extracted for you), the strength and when the control stops (end, 0.1–1). Not available in References mode.</p>
+<p class="fr">Une vidéo de pose ou de profondeur guide le mouvement via le Fun ControlNet H3 natif. Choisis <i>tel quel</i> (la vidéo est déjà une pose / profondeur) ou <i>canny</i> (les contours sont extraits pour toi), l'intensité et le moment où le contrôle s'arrête (fin, 0,1–1). Indisponible en mode Références.</p>
+<h4><span class="en">Retouch</span><span class="fr">Retouche</span></h4>
+<p class="en">Regenerates a box of a video over a time range and keeps the rest. Drop the video (or press ↪ Retouch this on a render), draw the box, set start and end, describe the new content in the prompt. The original sound can be kept.</p>
+<p class="fr">Régénère une zone d'une vidéo sur une plage de temps et garde le reste. Glisse la vidéo (ou clique ↪ Retoucher sur un rendu), dessine la zone, règle début et fin, décris le nouveau contenu dans le prompt. Le son d'origine peut être gardé.</p>
+</section>
+
+<!-- =============================================================== FINISH -->
+<section id="finish">
+<h2><span class="n">16</span><span class="en">Finish &amp; share</span><span class="fr">Finition &amp; partage</span></h2>
+<table class="tbl-wrap"><tbody>
+<tr><td>Upscale</td><td><span class="en">1080p · 1440p · 4K <span class="full">FULL</span>, frame by frame, with <b>NVIDIA RTX Video Super Resolution</b> (very fast, made for video) when the Nvidia VFX pack is installed, any upscale model of <code>models/upscale_models</code> (4x-UltraSharp…), or lanczos.</span><span class="fr">1080p · 1440p · 4K <span class="full">FULL</span>, image par image, avec <b>NVIDIA RTX Video Super Resolution</b> (très rapide, fait pour la vidéo) quand le pack Nvidia VFX est installé, n'importe quel modèle de <code>models/upscale_models</code> (4x-UltraSharp…), ou lanczos.</span></td></tr>
+<tr><td><span class="en">Frame rate</span><span class="fr">Images / s</span> <span class="full">FULL</span></td><td><span class="en">48 or 72 fps with RIFE or FILM. Smooth motion, longer render.</span><span class="fr">48 ou 72 i/s avec RIFE ou FILM. Mouvement fluide, rendu plus long.</span></td></tr>
+<tr><td>Signature <span class="full">FULL</span></td><td><span class="en">Your name on the video: text, position, size and opacity.</span><span class="fr">Ton nom sur la vidéo : texte, position, taille et opacité.</span></td></tr>
+<tr><td><span class="en">Social formats</span><span class="fr">Formats réseaux</span> <span class="full">FULL</span></td><td><span class="en">Extra MP4 files in Reels 9:16, Feed 1:1, Portrait 4:5, YouTube 16:9, cropped from the clean picture and framed on the action (focus slider), then signed.</span><span class="fr">Des MP4 en plus en Reels 9:16, Feed 1:1, Portrait 4:5, YouTube 16:9, recadrés depuis l'image propre et cadrés sur l'action (curseur de cadrage), puis signés.</span></td></tr>
+</tbody></table>
+</section>
+
+<!-- =============================================================== PRESETS -->
+<section id="presets">
+<h2><span class="n">17</span><span class="en">Presets &amp; Draft / Final</span><span class="fr">Presets &amp; Brouillon / Final</span></h2>
+<p class="en"><b>⚡ Draft / ✦ Final</b>: Draft switches to a quick setting to explore (Studio: 576p, Turbo, 4 variations, no upscale · WF: 0.6 MP, Turbo, no enhancement). Final brings your own settings back exactly.</p>
+<p class="fr"><b>⚡ Brouillon / ✦ Final</b> : Brouillon passe sur un réglage rapide pour explorer (Studio : 576p, Turbo, 4 variations, sans upscale · WF : 0,6 MP, Turbo, sans amélioration). Final remet exactement tes réglages.</p>
+<table class="tbl-wrap"><thead><tr><th>Preset <span class="full">FULL</span></th><th><span class="en">Settings</span><span class="fr">Réglages</span></th></tr></thead><tbody>
+<tr><td>⚡ Quick draft</td><td>576p · Turbo · 4 variations</td></tr>
+<tr><td>✦ Final 1 MP</td><td>1 MP · Full · <span class="en">no step cache</span><span class="fr">sans cache des steps</span></td></tr>
+<tr><td>◎ Full + step cache</td><td>1 MP · Full · 13 steps · <span class="en">light step cache · sparse attention</span><span class="fr">cache léger · attention sparse</span></td></tr>
+<tr><td>🎬 Cinema 4K</td><td>21:9 · Full · 4K · 48 fps</td></tr>
+<tr><td>📱 Reels / TikTok</td><td>9:16 · Turbo · 1080p · signature</td></tr>
+<tr><td>🧪 Low VRAM</td><td>640p · Turbo · <span class="en">free text encoder · tiled decode · low VRAM on</span><span class="fr">encodeur libéré · décodage en tuiles · faible VRAM activé</span></td></tr>
+</tbody></table>
+<p class="en">Save your own from the presets menu: they keep the clip settings, not the prompt or the pictures.</p>
+<p class="fr">Enregistre les tiens depuis le menu des presets : ils gardent les réglages du clip, pas le prompt ni les images.</p>
+</section>
+
+<!-- =============================================================== SAVE -->
+<section id="save">
+<h2><span class="n">18</span><span class="en">Saving &amp; history</span><span class="fr">Enregistrement &amp; historique</span></h2>
+<p class="en">With <b>Save</b> on, each render writes to <code>output/&lt;folder&gt;/&lt;name&gt;_00001_.mp4</code> (H.264 video + AAC stereo, with the workflow embedded so you can drop the MP4 back into ComfyUI), plus the first frame (<code>_first.webp</code>) and the last frame (<code>_last.png</code>). Default folder <code>MiniMax_H3</code>. Turn Save off to only preview.</p>
+<p class="fr">Avec <b>Enregistrer</b> activé, chaque rendu écrit <code>output/&lt;dossier&gt;/&lt;nom&gt;_00001_.mp4</code> (vidéo H.264 + AAC stéréo, avec le workflow intégré : tu peux reglisser le MP4 dans ComfyUI), plus la première image (<code>_first.webp</code>) et la dernière (<code>_last.png</code>). Dossier par défaut <code>MiniMax_H3</code>. Désactive Enregistrer pour seulement prévisualiser.</p>
+<p class="en">The history (Studio result column, WF ⑥ Output) lists your recent renders across sessions. <b>Clear</b> empties the list only: the video files stay on disk. It is stored in <code>user/default/enzino_h3_studio/</code>.</p>
+<p class="fr">L'historique (colonne résultat du Studio, WF ⑥ Output) liste tes rendus récents d'une session à l'autre. <b>Vider</b> vide seulement la liste : les fichiers vidéo restent sur le disque. Il est stocké dans <code>user/default/enzino_h3_studio/</code>.</p>
+</section>
+
+<!-- =============================================================== TROUBLE -->
+<section id="trouble">
+<h2><span class="n">19</span><span class="en">Troubleshooting</span><span class="fr">Dépannage</span></h2>
+<table class="tbl-wrap"><thead><tr><th><span class="en">Symptom</span><span class="fr">Symptôme</span></th><th><span class="en">What to do</span><span class="fr">Que faire</span></th></tr></thead><tbody>
+<tr><td><span class="en">A node has a red frame / "missing model"</span><span class="fr">Un node a un cadre rouge / « modèle manquant »</span></td><td><span class="en">The workflow was made on another computer. Pick your file in ◆ Models (or download it); the frame goes away by itself.</span><span class="fr">Le workflow vient d'un autre ordinateur. Choisis ton fichier dans ◆ Modèles (ou télécharge-le) ; le cadre disparaît tout seul.</span></td></tr>
+<tr><td><span class="en">My model is not in the list</span><span class="fr">Mon modèle n'est pas dans la liste</span></td><td><span class="en">Check the folder, then ↻ Rescan. Files with another name are under <i>── other files ──</i>.</span><span class="fr">Vérifie le dossier, puis ↻ Actualiser. Les fichiers au nom différent sont sous <i>── autres fichiers ──</i>.</span></td></tr>
+<tr><td><span class="en">The 2nd render is very slow to start</span><span class="fr">Le 2e rendu est très lent à démarrer</span></td><td><span class="en">RAM is short and Windows is paging. Turn on <i>Free text encoder</i>, close other apps, or use the W6A8 model.</span><span class="fr">La RAM manque et Windows swappe. Active <i>Libérer l'encodeur</i>, ferme les autres applis, ou prends le modèle W6A8.</span></td></tr>
+<tr><td><span class="en">Out of memory</span><span class="fr">Mémoire insuffisante (OOM)</span></td><td><span class="en">The render already retried once with more headroom. Lower the size or duration, set Low VRAM to <i>on</i>, turn on Tiled decode, or use the 🧪 Low VRAM preset.</span><span class="fr">Le rendu a déjà été relancé une fois avec plus de marge. Baisse la taille ou la durée, mets Faible VRAM sur <i>on</i>, active le décodage en tuiles, ou prends le preset 🧪 Low VRAM.</span></td></tr>
+<tr><td><span class="en">"CUDA illegal memory access"</span><span class="fr">« CUDA illegal memory access »</span></td><td><span class="en">The GPU is in a broken state: restart ComfyUI. If it comes back, set Attention to <i>default</i>.</span><span class="fr">La carte est dans un état cassé : redémarre ComfyUI. Si ça revient, mets l'attention sur <i>default</i>.</span></td></tr>
+<tr><td><span class="en">Turbo is blurry / wrong with a Turbo model</span><span class="fr">Turbo flou / raté avec un modèle Turbo</span></td><td><span class="en">Set the Turbo LoRA to <i>none</i>: the model is already distilled.</span><span class="fr">Mets la LoRA Turbo sur <i>aucune</i> : le modèle est déjà distillé.</span></td></tr>
+<tr><td><span class="en">References mode error</span><span class="fr">Erreur en mode Références</span></td><td><span class="en">Pick a References model (REF2VA or Hybrid) in ◆ Models and add at least one picture.</span><span class="fr">Choisis un modèle Références (REF2VA ou Hybride) dans ◆ Modèles et ajoute au moins une image.</span></td></tr>
+<tr><td><span class="en">Krea 2 pass flickers</span><span class="fr">La passe Krea 2 scintille</span></td><td><span class="en">Use <i>Fine detail only</i>, keep anti-flicker on, lower the denoise to 0.10–0.15.</span><span class="fr">Prends <i>Détail fin seul</i>, garde l'anti-scintillement, baisse le denoise à 0,10–0,15.</span></td></tr>
+<tr><td><span class="en">The interface did not update</span><span class="fr">L'interface ne s'est pas mise à jour</span></td><td><span class="en">Reload the page with <kbd>Ctrl</kbd>+<kbd>F5</kbd> after updating the pack.</span><span class="fr">Recharge la page avec <kbd>Ctrl</kbd>+<kbd>F5</kbd> après une mise à jour du pack.</span></td></tr>
+</tbody></table>
+<p class="en">Still stuck? In the Studio, press <i>Copy the error</i> and send it with your GPU, VRAM, RAM and ComfyUI version.</p>
+<p class="fr">Toujours bloqué ? Dans le Studio, clique <i>Copier l'erreur</i> et envoie-la avec ta carte, ta VRAM, ta RAM et ta version de ComfyUI.</p>
+</section>
+
+<!-- =============================================================== EDITIONS -->
+<section id="editions">
+<h2><span class="n">20</span>Free / Full</h2>
+<table><thead><tr><th></th><th>Free</th><th>Full</th></tr></thead><tbody>
+<tr><td>✦ Enzino H3 WF</td><td>✓</td><td>✓</td></tr>
+<tr><td>✦ Enzino H3 Simple · ✦ Enzino H3 Studio</td><td>🔒</td><td>✓</td></tr>
+<tr><td><span class="en">Text, Image, First + Last, References · full quality</span><span class="fr">Texte, Image, Début + Fin, Références · qualité maximale</span></td><td>✓</td><td>✓</td></tr>
+<tr><td><span class="en">End frame, mid keyframe, your own sound (Studio)</span><span class="fr">Image de fin, image du milieu, ton propre son (Studio)</span></td><td>—</td><td>✓</td></tr>
+<tr><td><span class="en">Speed &amp; memory work</span><span class="fr">Travail vitesse &amp; mémoire</span></td><td>✓</td><td>✓</td></tr>
+<tr><td><span class="en">Prompt helpers, live preview, history</span><span class="fr">Aides au prompt, aperçu en direct, historique</span></td><td>✓</td><td>✓</td></tr>
+<tr><td>Upscale</td><td>1080p · 1440p</td><td>+ 4K</td></tr>
+<tr><td>LoRAs</td><td>3</td><td>8</td></tr>
+<tr><td><span class="en">Krea 2 second pass</span><span class="fr">2e passe Krea 2</span></td><td>—</td><td>✓</td></tr>
+<tr><td><span class="en">Story mode, motion control, retouch, variations</span><span class="fr">Mode histoire, contrôle du mouvement, retouche, variations</span></td><td>—</td><td>✓</td></tr>
+<tr><td><span class="en">48 / 72 fps, signature, social formats</span><span class="fr">48 / 72 i/s, signature, formats réseaux</span></td><td>—</td><td>✓</td></tr>
+<tr><td><span class="en">Enzino presets</span><span class="fr">Presets Enzino</span></td><td>—</td><td>✓</td></tr>
+</tbody></table>
+<p class="en">The Free edition is the complete ✦ Enzino H3 WF. A WF workflow made with the Full edition still runs in Free: Full-only steps are skipped with a message. A Studio or Simple node opened in Free shows a 🔒 card with a link instead of a red node. Get the Full edition ($11.99) on <a href="https://ko-fi.com/enzinoxl/">Ko-Fi</a>.</p>
+<p class="fr">L'édition Free est le ✦ Enzino H3 WF complet. Un workflow WF fait avec l'édition Full tourne quand même en Free : les étapes réservées au Full sont sautées avec un message. Un node Studio ou Simple ouvert en Free affiche une carte 🔒 avec un lien au lieu d'un node rouge. L'édition Full (11,99 $) est sur <a href="https://ko-fi.com/enzinoxl/">Ko-Fi</a>.</p>
+</section>
+
+<!-- =============================================================== LICENCE -->
+<section id="licence">
+<h2><span class="n">21</span><span class="en">Licences &amp; credits</span><span class="fr">Licences &amp; crédits</span></h2>
+<p class="en">MiniMax H3 weights are under the <i>MiniMax H3 Community License</i>; community models and LoRAs (Hybrid FL+REF, Turbo LoRA, Krea 2, IntoRealism…) have their own licences. Read them before commercial use of your videos.</p>
+<p class="fr">Les poids MiniMax H3 sont sous <i>MiniMax H3 Community License</i> ; les modèles et LoRAs communautaires (Hybride FL+REF, LoRA Turbo, Krea 2, IntoRealism…) ont leurs propres licences. Lis-les avant un usage commercial de tes vidéos.</p>
+<ul>
+<li><span class="en">MiniMax H3 and the native ComfyUI implementation by their authors.</span><span class="fr">MiniMax H3 et l'implémentation ComfyUI native par leurs auteurs.</span></li>
+<li><span class="en">Speed ideas from PlagueKind's optimised workflow.</span><span class="fr">Idées de vitesse tirées du workflow optimisé de PlagueKind.</span></li>
+<li>RefMod: ComfyUI-MiniMaxH3Mod <span class="en">by Luisa</span><span class="fr">de Luisa</span>.</li>
+<li><span class="en">Interface font: Inter (SIL Open Font License).</span><span class="fr">Police de l'interface : Inter (SIL Open Font License).</span></li>
+</ul>
+<footer>✦ Enzino H3 Studio 3.0.0 · <span class="en">made by</span><span class="fr">fait par</span> Enzino · <a href="https://enzinoai.com">enzinoai.com</a> · <a href="https://ko-fi.com/enzinoxl/">Ko-Fi</a></footer>
+</section>
+</main>
+</div>
+<script>
+(function () {
+  var root = document.documentElement, store = {};
+  try { store = window.localStorage || {}; } catch (e) {}
+  function get(k) { try { return store.getItem ? store.getItem(k) : null; } catch (e) { return null; } }
+  function put(k, v) { try { store.setItem && store.setItem(k, v); } catch (e) {} }
+  var lang = get("h3doc-lang") || ((navigator.language || "en").toLowerCase().indexOf("fr") === 0 ? "fr" : "en");
+  function setLang(l) { root.lang = l; put("h3doc-lang", l); document.querySelectorAll("[data-lang]").forEach(function (b) { b.classList.toggle("on", b.dataset.lang === l); }); }
+  setLang(lang);
+  document.querySelectorAll("[data-lang]").forEach(function (b) { b.onclick = function () { setLang(b.dataset.lang); }; });
+  var th = get("h3doc-theme"); if (th) root.dataset.theme = th;
+  document.querySelector("[data-theme-btn]").onclick = function () {
+    var dark = root.dataset.theme ? root.dataset.theme === "dark" : !matchMedia("(prefers-color-scheme: light)").matches;
+    root.dataset.theme = dark ? "light" : "dark"; put("h3doc-theme", root.dataset.theme);
+  };
+  var nav = document.getElementById("nav");
+  document.getElementById("menu").onclick = function () { nav.classList.toggle("open"); };
+  nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("open"); }); });
+  var links = {}; nav.querySelectorAll("li a").forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { Object.values(links).forEach(function (a) { a.classList.remove("cur"); }); var a = links[e.target.id]; if (a) a.classList.add("cur"); } }); }, { rootMargin: "-20% 0px -70% 0px" });
+  document.querySelectorAll("main section").forEach(function (s) { io.observe(s); });
+})();
+</script>
+</body>
+</html>
